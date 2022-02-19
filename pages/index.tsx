@@ -1,11 +1,16 @@
 import type { NextPage } from 'next';
-import Image from 'next/image';
+import Input from '../components/Inputs/InputField';
+import MainLayout from '../layout/MainLayout';
 
 const Home: NextPage = () => {
 	return (
-		<div className="grid place-items-center w-screen h-screen text-3xl font-semibold">
-			BTC Look Up
-		</div>
+		<MainLayout>
+			<div className="flex justify-center h-screen p-10 py-20">
+				<div className="w-full max-w-lg">
+					<Input placeholder="Address or Transaction hash" />
+				</div>
+			</div>
+		</MainLayout>
 	);
 };
 
