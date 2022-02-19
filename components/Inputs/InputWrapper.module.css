@@ -1,0 +1,28 @@
+.wrapper {
+  @apply flex items-center rounded w-full;
+  @apply border border-slate-300 placeholder-slate-300 shadow-sm bg-white;
+
+  &.active {
+    @apply focus-within:border-slate-500;
+  }
+
+  &.disabled {
+    @apply cursor-not-allowed bg-gray-200;
+  }
+
+  &.valid {
+    @apply border-green-600 focus-within:border-green-400;
+  }
+
+  &.invalid {
+    @apply border-red-600 focus-within:border-red-400;
+  }
+
+  & .icon {
+    @apply py-2 pl-3 text-slate-500;
+
+    & svg {
+      @apply w-6 h-6;
+    }
+  }
+}
