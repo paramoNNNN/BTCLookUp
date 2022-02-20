@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { AddressResponse } from '../../@types';
-import { axiosInstance } from '../../config/axios';
-import { endpoints } from '../../config/endpoints';
-import { checkRequest } from '../../utils';
+import { AddressResponse } from 'api/@types';
+import { axiosInstance } from 'api/config/axios';
+import { endpoints } from 'api/config/endpoints';
+import { checkRequest } from 'api/utils';
 
 export default async function handler(
 	req: NextApiRequest,
