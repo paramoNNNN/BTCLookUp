@@ -1,17 +1,13 @@
 import type { NextPage } from 'next';
-import Input from '../components/Inputs/InputField';
-import MainLayout from '../layout/MainLayout';
+import MainLayout from 'layout/MainLayout';
+import Search from 'features/Search';
 
 const Home: NextPage = () => {
-	return (
-		<MainLayout>
-			<div className="flex justify-center h-screen p-10 py-20">
-				<div className="w-full max-w-lg">
-					<Input placeholder="Address or Transaction hash" />
-				</div>
-			</div>
-		</MainLayout>
-	);
+  return (
+    <MainLayout>
+      <Search />
+    </MainLayout>
+  );
 };
 
 export default Home;
