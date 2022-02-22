@@ -10,6 +10,7 @@ export type SelectOption<T extends string = string> = {
 const Select = ({ className, ...rest }: Props): JSX.Element => {
   return (
     <ReactSelect
+      instanceId="select"
       className={classNames(styles.select, className)}
       classNamePrefix="select"
       {...rest}
