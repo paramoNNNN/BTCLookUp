@@ -29,6 +29,18 @@
     }
   }
 
+  &.transparent {
+    @apply bg-transparent;
+
+    &.active {
+      @apply hover:bg-gray-200;
+    }
+
+    &.disabled {
+      @apply opacity-50 bg-gray-200 cursor-not-allowed; 
+    }
+  }
+
   &.outline {
     @apply bg-transparent text-indigo-500 border-indigo-500 border focus:outline-none;
 
