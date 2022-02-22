@@ -1,0 +1,36 @@
+.select {
+  & :global(.select__control) {
+    @apply border-slate-300 shadow-sm h-full;
+
+    &:hover {
+      @apply border-slate-300;
+    }
+
+    &:global(.select__control--is-focused) {
+      @apply border-slate-500 ring-0;
+
+      & :global(.select__placeholder) {
+        @apply text-slate-500;
+      }
+    }
+
+    & :global(.select__placeholder) {
+      @apply text-slate-300;
+    }
+  }
+
+  & :global(.select__menu) {
+    @apply ring-1 ring-slate-500;
+
+    & :global(.select__option) {
+      &:global(.select__option--is-focused),
+      &:hover {
+        @apply bg-indigo-100;
+      }
+
+      &:global(.select__option--is-selected) {
+        @apply bg-indigo-500;
+      }
+    }
+  }
+}
