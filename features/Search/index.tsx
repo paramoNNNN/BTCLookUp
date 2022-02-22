@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { SearchIcon } from '@heroicons/react/solid';
 import Button from 'components/Button';
 import Select, { SelectOption } from 'components/Select';
 import Input from 'components/Inputs/InputField';
 import { SearchForm, SearchTypes } from './@types';
-import { getAddress, getTransaction } from './api';
 import InfoCard from './components/InfoCard';
-import { AddressResponse, TransactionResponse } from 'api/@types';
+import { useSearch } from './hooks/useSearch';
 
 const searchOptions: SelectOption<SearchTypes>[] = [
   { label: 'Address', value: 'address' },
@@ -16,19 +14,10 @@ const searchOptions: SelectOption<SearchTypes>[] = [
 
 const Search = () => {
   const { control, register, handleSubmit, watch } = useForm<SearchForm>();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<TransactionResponse | AddressResponse>();
+  const { search, data, loading } = useSearch();
 
   const handleSearch = async ({ searchType, query }: SearchForm) => {
-    setLoading(true);
-    if (searchType.value === 'transaction') {
-      const { data } = await getTransaction({ hash: query });
-      setData(data);
-    } else if (searchType.value === 'address') {
-      const { data } = await getAddress({ address: query });
-      setData(data);
-    }
-    setLoading(false);
+    search({ type: searchType.value, query });
   };
 
   return (
