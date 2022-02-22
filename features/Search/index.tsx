@@ -16,9 +16,11 @@ const searchOptions: SelectOption<SearchTypes>[] = [
 
 const Search = () => {
   const { control, register, handleSubmit, watch } = useForm<SearchForm>();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState<TransactionResponse | AddressResponse>();
 
   const handleSearch = async ({ searchType, query }: SearchForm) => {
+    setLoading(true);
     if (searchType.value === 'transaction') {
       const { data } = await getTransaction({ hash: query });
       setData(data);
@@ -26,11 +28,12 @@ const Search = () => {
       const { data } = await getAddress({ address: query });
       setData(data);
     }
+    setLoading(false);
   };
 
   return (
-    <div className="flex flex-col items-center h-screen p-10 py-20 space-y-6">
-      <div className="w-full max-w-2xl">
+    <div className="flex flex-col items-center h-screen p-10 py-20">
+      <div className="w-full max-w-3xl space-y-6">
         <form className="flex space-x-4" onSubmit={handleSubmit(handleSearch)}>
           <Controller
             control={control}
@@ -48,19 +51,15 @@ const Search = () => {
             }}
           />
           <Input {...register('query')} placeholder="Enter hash" />
-          <Button type="submit" icon={SearchIcon}>
+          <Button type="submit" icon={SearchIcon} loading={loading}>
             Search
           </Button>
         </form>
-      </div>
 
-      {data && (
-        <InfoCard
-          title={watch('query')}
-          data={data}
-          type={watch('searchType.value')}
-        />
-      )}
+        {data && !loading && (
+          <InfoCard data={data} type={watch('searchType.value')} />
+        )}
+      </div>
     </div>
   );
 };
