@@ -49,7 +49,6 @@ const Button = (props: ButtonProps): JSX.Element => {
     icon,
     className,
     children,
-    tooltip,
     ...other
   } = props;
   const isButtonDisabled = disabled || loading;
