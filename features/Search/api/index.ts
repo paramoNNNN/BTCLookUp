@@ -6,16 +6,20 @@ type GetTransactionParams = {
   hash: string;
 };
 
-export const getTransaction = async ({ hash }: GetTransactionParams) =>
-  await axiosClientInstance.get<TransactionResponse>(
+export const getTransaction = async ({ hash }: GetTransactionParams) => {
+  const { data } = await axiosClientInstance.get<TransactionResponse>(
     `${clientEndpoints.transaction}/${hash}`
   );
+  return data;
+};
 
 type GetAddressParams = {
   address: string;
 };
 
-export const getAddress = async ({ address }: GetAddressParams) =>
-  await axiosClientInstance.get<AddressResponse>(
+export const getAddress = async ({ address }: GetAddressParams) => {
+  const { data } = await axiosClientInstance.get<AddressResponse>(
     `${clientEndpoints.address}/${address}`
   );
+  return data;
+};
