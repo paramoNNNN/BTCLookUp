@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
 import toast from 'react-hot-toast';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { BellIcon as BellSolidIcon } from '@heroicons/react/solid';
 import { BellIcon as BellOutlineIcon } from '@heroicons/react/outline';
 import type { AddressResponse, TransactionResponse } from 'api/@types';
 import Button from 'components/Button';
 import type { SearchTypes } from 'features/Search/@types';
 import { subscribeToHash } from 'features/Search/api';
-import { useSearch } from 'features/Search/hooks/useSearch';
 import { transformData } from './utils';
 
 type Props = {
@@ -21,14 +20,20 @@ const typeLabels: Record<SearchTypes, string> = {
 };
 
 const InfoCard = ({ data, type }: Props) => {
-  const { addressMutate, transactionMutate } = useSearch();
+  const queryClient = useQueryClient();
   const { mutateAsync, isLoading } = useMutation('subscribe', subscribeToHash, {
     onSuccess: async (response) => {
       // Update transaction/address data by mutating them again
       if (type === 'transaction' && 'hash' in data) {
-        await transactionMutate({ hash: data.hash });
+        queryClient.setQueryData('transaction', (currentData) => ({
+          ...(currentData as TransactionResponse),
+          subscribed: response.status === 'created',
+        }));
       } else if (type === 'address' && 'address' in data) {
-        await addressMutate({ address: data.address });
+        queryClient.setQueryData('address', (currentData) => ({
+          ...(currentData as AddressResponse),
+          subscribed: response.status === 'created',
+        }));
       }
 
       if (response.status === 'created') {
