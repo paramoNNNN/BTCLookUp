@@ -1,11 +1,12 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
+import { Toaster } from 'react-hot-toast';
+import { createClient } from 'utils/queryClient';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
-
+  const queryClient = createClient();
   return (
     <>
       <Head>
@@ -17,6 +18,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
       </QueryClientProvider>
+      <Toaster
+        toastOptions={{
+          position: 'top-right',
+          duration: 5000,
+        }}
+      />
     </>
   );
 }
