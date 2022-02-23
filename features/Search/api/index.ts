@@ -6,33 +6,26 @@ import type {
 import { axiosClientInstance } from 'api/config/axios';
 import { clientEndpoints } from 'api/config/endpoints';
 import { getUser } from 'utils';
-import { SearchTypes } from '../@types';
-
-type GetTransactionParams = {
-  hash: string;
-};
+import type {
+  GetAddressParams,
+  GetTransactionParams,
+  SubscribeToHashParams,
+} from '../@types';
 
 export const getTransaction = async ({ hash }: GetTransactionParams) => {
-  const { data } = await axiosClientInstance.get<TransactionResponse>(
-    `${clientEndpoints.transaction}/${hash}`
+  const { data } = await axiosClientInstance.post<TransactionResponse>(
+    `${clientEndpoints.transaction}/${hash}`,
+    { user: getUser() }
   );
   return data;
-};
-
-type GetAddressParams = {
-  address: string;
 };
 
 export const getAddress = async ({ address }: GetAddressParams) => {
-  const { data } = await axiosClientInstance.get<AddressResponse>(
-    `${clientEndpoints.address}/${address}`
+  const { data } = await axiosClientInstance.post<AddressResponse>(
+    `${clientEndpoints.address}/${address}`,
+    { user: getUser() }
   );
   return data;
-};
-
-type SubscribeToHashParams = {
-  hash: string;
-  type: SearchTypes;
 };
 
 export const subscribeToHash = async ({
