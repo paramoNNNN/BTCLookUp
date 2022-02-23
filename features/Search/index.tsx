@@ -17,7 +17,7 @@ const Search = () => {
     mode: 'all',
   });
   const searchType = watch('searchType');
-  const { data, search, loading } = useSearch({
+  const { searchData, search, loading } = useSearch({
     query: watch('query'),
     type: searchType?.value,
   });
@@ -51,8 +51,8 @@ const Search = () => {
           </Button>
         </form>
 
-        {data && data.data && !loading && (
-          <InfoCard data={data.data} type={data.type} />
+        {searchData.data && searchData.type && !loading && (
+          <InfoCard data={searchData.data} type={searchData.type} />
         )}
       </div>
     </div>

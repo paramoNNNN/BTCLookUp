@@ -13,8 +13,8 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
   const queryClient = useQueryClient();
   const [data, setData] = useState<{
     data: AddressResponse | TransactionResponse | undefined;
-    type: SearchTypes;
-  }>();
+    type: SearchTypes | undefined;
+  }>({ data: undefined, type: undefined });
   const {
     data: addressData,
     refetch: addressRefetch,
@@ -46,7 +46,6 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
   }, [addressData, transactionData, type, queryClient, data?.type]);
 
   const search = () => {
-    console.log('here');
     if (type === 'address') {
       addressRefetch();
     } else if (type === 'transaction') {
@@ -55,7 +54,7 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
   };
 
   return {
-    data: data,
+    searchData: data,
     loading: addressLoading || transactionLoading,
     search,
   };
