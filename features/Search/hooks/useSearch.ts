@@ -1,6 +1,6 @@
-import { useMutation } from 'react-query';
-import { SearchTypes } from '../@types';
-import { getAddress, getTransaction } from '../api';
+import { AddressResponse, TransactionResponse } from 'api/@types';
+import { useMutation, useQueryClient } from 'react-query';
+import { GetAddressParams, GetTransactionParams, SearchTypes } from '../@types';
 
 type MutateParams = {
   type: SearchTypes;
@@ -8,18 +8,32 @@ type MutateParams = {
 };
 
 export const useSearch = () => {
+  const queryClient = useQueryClient();
   const {
     data: addressData,
-    mutate: addressMutate,
+    mutateAsync: addressMutate,
     isLoading: addressLoading,
     reset: addressReset,
-  } = useMutation('address', getAddress);
+  } = useMutation<AddressResponse, unknown, GetAddressParams>('address', {
+    onSuccess: (data) => {
+      // Update queryData if mutation used anywhere else globally
+      queryClient.setQueriesData('address', data);
+    },
+  });
   const {
     data: transactionData,
-    mutate: transactionMutate,
+    mutateAsync: transactionMutate,
     isLoading: transactionLoading,
     reset: transactionReset,
-  } = useMutation('transaction', getTransaction);
+  } = useMutation<TransactionResponse, unknown, GetTransactionParams>(
+    'transaction',
+    {
+      onSuccess: (data) => {
+        // Update queryData if mutation used anywhere else globally
+        queryClient.setQueriesData('transaction', data);
+      },
+    }
+  );
 
   const search = ({ type, query }: MutateParams) => {
     if (type === 'address') {
@@ -35,5 +49,7 @@ export const useSearch = () => {
     data: addressData || transactionData,
     search,
     loading: addressLoading || transactionLoading,
+    addressMutate,
+    transactionMutate,
   };
 };
