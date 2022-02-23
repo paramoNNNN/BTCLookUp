@@ -1,55 +1,62 @@
 import { AddressResponse, TransactionResponse } from 'api/@types';
-import { useMutation, useQueryClient } from 'react-query';
-import { GetAddressParams, GetTransactionParams, SearchTypes } from '../@types';
+import { useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import type { SearchTypes } from '../@types';
+import { getAddress, getTransaction } from '../api';
 
-type MutateParams = {
-  type: SearchTypes;
+type UseSearchParams = {
   query: string;
+  type: SearchTypes;
 };
 
-export const useSearch = () => {
+export const useSearch = ({ query, type }: UseSearchParams) => {
   const queryClient = useQueryClient();
+  const [data, setData] = useState<{
+    data: AddressResponse | TransactionResponse | undefined;
+    type: SearchTypes;
+  }>();
   const {
     data: addressData,
-    mutateAsync: addressMutate,
+    refetch: addressRefetch,
     isLoading: addressLoading,
-    reset: addressReset,
-  } = useMutation<AddressResponse, unknown, GetAddressParams>('address', {
-    onSuccess: (data) => {
-      // Update queryData if mutation used anywhere else globally
-      queryClient.setQueriesData('address', data);
+  } = useQuery(
+    'address',
+    async () => {
+      return await getAddress({ address: query });
     },
-  });
+    { enabled: false }
+  );
   const {
     data: transactionData,
-    mutateAsync: transactionMutate,
+    refetch: transactionRefetch,
     isLoading: transactionLoading,
-    reset: transactionReset,
-  } = useMutation<TransactionResponse, unknown, GetTransactionParams>(
+  } = useQuery<TransactionResponse>(
     'transaction',
-    {
-      onSuccess: (data) => {
-        // Update queryData if mutation used anywhere else globally
-        queryClient.setQueriesData('transaction', data);
-      },
-    }
+    async () => {
+      return await getTransaction({ hash: query });
+    },
+    { enabled: false }
   );
 
-  const search = ({ type, query }: MutateParams) => {
+  useEffect(() => {
+    if (data?.type !== type) {
+      queryClient.removeQueries(data?.type);
+    }
+    setData({ data: type === 'address' ? addressData : transactionData, type });
+  }, [addressData, transactionData, type, queryClient, data?.type]);
+
+  const search = () => {
+    console.log('here');
     if (type === 'address') {
-      transactionReset();
-      addressMutate({ address: query });
+      addressRefetch();
     } else if (type === 'transaction') {
-      addressReset();
-      transactionMutate({ hash: query });
+      transactionRefetch();
     }
   };
 
   return {
-    data: addressData || transactionData,
-    search,
+    data: data,
     loading: addressLoading || transactionLoading,
-    addressMutate,
-    transactionMutate,
+    search,
   };
 };

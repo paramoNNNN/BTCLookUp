@@ -13,11 +13,17 @@ const searchOptions: SelectOption<SearchTypes>[] = [
 ];
 
 const Search = () => {
-  const { control, register, handleSubmit, watch } = useForm<SearchForm>();
-  const { search, data, loading } = useSearch();
+  const { control, register, handleSubmit, watch } = useForm<SearchForm>({
+    mode: 'all',
+  });
+  const searchType = watch('searchType');
+  const { data, search, loading } = useSearch({
+    query: watch('query'),
+    type: searchType?.value,
+  });
 
-  const handleSearch = async ({ searchType, query }: SearchForm) => {
-    search({ type: searchType.value, query });
+  const handleSearch = () => {
+    search();
   };
 
   return (
@@ -45,8 +51,8 @@ const Search = () => {
           </Button>
         </form>
 
-        {data && !loading && (
-          <InfoCard data={data} type={watch('searchType.value')} />
+        {data && data.data && !loading && (
+          <InfoCard data={data.data} type={data.type} />
         )}
       </div>
     </div>
