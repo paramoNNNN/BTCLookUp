@@ -2,9 +2,9 @@ import type {
   AddressResponse,
   SubscribeResponse,
   TransactionResponse,
-} from 'api/@types';
-import { axiosClientInstance } from 'api/config/axios';
-import { clientEndpoints } from 'api/config/endpoints';
+} from 'pages/api/@types';
+import { axiosClientInstance } from 'config/axios';
+import { clientEndpoints } from 'config/endpoints';
 import { getUser } from 'utils';
 import type {
   GetAddressParams,

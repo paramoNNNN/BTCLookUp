@@ -1,4 +1,4 @@
-import { AddressResponse, TransactionResponse } from 'api/@types';
+import { AddressResponse, TransactionResponse } from 'pages/api/@types';
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import type { SearchTypes } from '../@types';

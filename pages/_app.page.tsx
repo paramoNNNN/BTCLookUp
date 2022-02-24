@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { QueryClientProvider, QueryClient } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 import { Provider as SupabaseProvider } from 'react-supabase';
-import { supabase } from 'api/utils/supabase';
+import { supabase } from 'pages/api/utils/supabase';
 import MainLayout from 'layout/MainLayout';
 import '../styles/globals.css';
 

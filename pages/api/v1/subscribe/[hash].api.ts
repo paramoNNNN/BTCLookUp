@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { checkRequest } from 'api/utils';
-import { supabase } from 'api/utils/supabase';
-import { SUBSCRIBED_HASHES_TABLE } from 'api/consts';
-import type { SubscribedHashTable, SubscribeResponse } from 'api/@types';
+import { checkRequest } from 'pages/api/utils';
+import { supabase } from 'pages/api/utils/supabase';
+import { SUBSCRIBED_HASHES_TABLE } from 'pages/api/consts';
+import type { SubscribedHashTable, SubscribeResponse } from 'pages/api/@types';
 
 export default async function handler(
   req: NextApiRequest,

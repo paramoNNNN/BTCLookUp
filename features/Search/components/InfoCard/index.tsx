@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from 'react-query';
 import { BellIcon as BellSolidIcon } from '@heroicons/react/solid';
 import { BellIcon as BellOutlineIcon } from '@heroicons/react/outline';
-import type { AddressResponse, TransactionResponse } from 'api/@types';
+import type { AddressResponse, TransactionResponse } from 'pages/api/@types';
 import Button from 'components/Button';
 import type { SearchTypes } from 'features/Search/@types';
 import { subscribeToHash } from 'features/Search/api';

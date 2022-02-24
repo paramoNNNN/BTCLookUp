@@ -13,7 +13,7 @@ import {
   PlusCircleIcon,
   XCircleIcon,
 } from '@heroicons/react/solid';
-import type { AddressResponse, TransactionResponse } from 'api/@types';
+import type { AddressResponse, TransactionResponse } from 'pages/api/@types';
 import { SearchTypes } from 'features/Search/@types';
 
 type TransformDataParams = {

@@ -1,16 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import deepEqual from 'deep-equal';
-import { supabase } from 'api/utils/supabase';
-import { NOTIFICATIONS_TABLE, SUBSCRIBED_HASHES_TABLE } from 'api/consts';
-import { axiosInstance } from 'api/config/axios';
-import { endpoints } from 'api/config/endpoints';
+import { supabase } from 'pages/api/utils/supabase';
+import { NOTIFICATIONS_TABLE, SUBSCRIBED_HASHES_TABLE } from 'pages/api/consts';
+import { axiosInstance } from 'pages/api/config/axios';
+import { endpoints } from 'pages/api/config/endpoints';
 import type {
   AddressResponse,
   CheckChangesResponse,
   NotificationsTable,
   SubscribedHashTable,
   TransactionResponse,
-} from 'api/@types';
+} from 'pages/api/@types';
 
 export default async function handler(
   req: NextApiRequest,

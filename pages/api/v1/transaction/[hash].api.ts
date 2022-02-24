@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SubscribedHashTable, TransactionResponse } from 'api/@types';
-import { axiosInstance } from 'api/config/axios';
-import { endpoints } from 'api/config/endpoints';
-import { checkRequest } from 'api/utils';
-import { supabase } from 'api/utils/supabase';
-import { SUBSCRIBED_HASHES_TABLE } from 'api/consts';
+import { SubscribedHashTable, TransactionResponse } from 'pages/api/@types';
+import { axiosInstance } from 'pages/api/config/axios';
+import { endpoints } from 'pages/api/config/endpoints';
+import { checkRequest } from 'pages/api/utils';
+import { supabase } from 'pages/api/utils/supabase';
+import { SUBSCRIBED_HASHES_TABLE } from 'pages/api/consts';
 
 export default async function handler(
   req: NextApiRequest,

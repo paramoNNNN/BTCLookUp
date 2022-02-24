@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useFilter, useRealtime } from 'react-supabase';
 import { BellIcon } from '@heroicons/react/outline';
-import { NOTIFICATIONS_TABLE } from 'api/consts';
+import { NOTIFICATIONS_TABLE } from 'pages/api/consts';
 import Button from 'components/Button';
 import Menu from 'components/Menu';
 import { getUser } from 'utils';

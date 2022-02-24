@@ -1,4 +1,4 @@
-import type { AddressResponse, TransactionResponse } from 'api/@types';
+import type { AddressResponse, TransactionResponse } from 'pages/api/@types';
 import type { SelectOption } from 'components/Select';
 
 export type SearchTypes = 'transaction' | 'address';
