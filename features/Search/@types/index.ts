@@ -1,3 +1,4 @@
+import type { AddressResponse, TransactionResponse } from 'api/@types';
 import type { SelectOption } from 'components/Select';
 
 export type SearchTypes = 'transaction' | 'address';
@@ -18,4 +19,5 @@ export type GetAddressParams = {
 export type SubscribeToHashParams = {
   hash: string;
   type: SearchTypes;
+  info: AddressResponse | TransactionResponse;
 };

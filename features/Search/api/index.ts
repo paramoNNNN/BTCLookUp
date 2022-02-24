@@ -31,10 +31,11 @@ export const getAddress = async ({ address }: GetAddressParams) => {
 export const subscribeToHash = async ({
   hash,
   type,
+  info,
 }: SubscribeToHashParams) => {
   const { data } = await axiosClientInstance.post<SubscribeResponse>(
     `${clientEndpoints.subscribe}/${hash}`,
-    { user: getUser(), type }
+    { user: getUser(), type, info }
   );
   return data;
 };

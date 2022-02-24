@@ -51,7 +51,7 @@ const InfoCard = ({ data, type }: Props) => {
 
   const handleSubscribe = async () => {
     const hash = 'hash' in data ? data.hash : data.address;
-    await mutateAsync({ hash, type });
+    await mutateAsync({ hash, type, info: data });
   };
 
   return (
