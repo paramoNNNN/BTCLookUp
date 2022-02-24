@@ -6,4 +6,5 @@ export const endpoints = {
 export const clientEndpoints = {
   address: '/address',
   transaction: '/transaction',
+  subscribe: '/subscribe',
 };

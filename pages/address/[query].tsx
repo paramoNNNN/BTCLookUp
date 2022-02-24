@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import Search from 'features/Search';
 
-const HomePage: NextPage = () => {
+const AddressPage: NextPage = () => {
   return <Search />;
 };
 
-export default HomePage;
+export default AddressPage;

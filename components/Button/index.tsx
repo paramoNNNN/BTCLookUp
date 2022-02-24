@@ -26,7 +26,7 @@ export interface ButtonProps
   /** Shows tooltip for Button */
   tooltip?: string;
   /** The style of the button */
-  layout?: 'outline' | 'primary';
+  layout?: 'primary' | 'transparent' | 'outline';
   /** Shows the button as a block (full width) */
   block?: boolean;
   /** The element that should be rendered as a button */

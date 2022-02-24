@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { SearchIcon } from '@heroicons/react/solid';
 import Button from 'components/Button';
 import Select, { SelectOption } from 'components/Select';
 import Input from 'components/Inputs/InputField';
 import { SearchForm, SearchTypes } from './@types';
-import { getAddress, getTransaction } from './api';
 import InfoCard from './components/InfoCard';
-import { AddressResponse, TransactionResponse } from 'api/@types';
+import { useSearch } from './hooks/useSearch';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const searchOptions: SelectOption<SearchTypes>[] = [
   { label: 'Address', value: 'address' },
@@ -15,21 +15,37 @@ const searchOptions: SelectOption<SearchTypes>[] = [
 ];
 
 const Search = () => {
-  const { control, register, handleSubmit, watch } = useForm<SearchForm>();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<TransactionResponse | AddressResponse>();
+  const {
+    query: { query },
+    pathname,
+  } = useRouter();
+  const { control, register, setValue, handleSubmit, watch } =
+    useForm<SearchForm>({
+      mode: 'all',
+      defaultValues: {
+        query: query as string,
+        searchType: searchOptions.find((option) =>
+          pathname.startsWith(`/${option.value}`)
+        ),
+      },
+    });
+  const searchType = watch('searchType');
+  const { searchData, search, loading } = useSearch({
+    query: watch('query'),
+    type: searchType?.value,
+  });
 
-  const handleSearch = async ({ searchType, query }: SearchForm) => {
-    setLoading(true);
-    if (searchType.value === 'transaction') {
-      const { data } = await getTransaction({ hash: query });
-      setData(data);
-    } else if (searchType.value === 'address') {
-      const { data } = await getAddress({ address: query });
-      setData(data);
-    }
-    setLoading(false);
+  const handleSearch = () => {
+    search();
   };
+
+  useEffect(() => {
+    if (query) {
+      setValue('query', query as string);
+      search();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   return (
     <div className="flex flex-col items-center h-screen p-10 py-20">
@@ -38,6 +54,7 @@ const Search = () => {
           <Controller
             control={control}
             name="searchType"
+            rules={{ required: true }}
             render={({ field: { onChange, onBlur, value } }) => {
               return (
                 <Select
@@ -50,14 +67,17 @@ const Search = () => {
               );
             }}
           />
-          <Input {...register('query')} placeholder="Enter hash" />
+          <Input
+            {...register('query', { required: 'true' })}
+            placeholder="Enter hash"
+          />
           <Button type="submit" icon={SearchIcon} loading={loading}>
             Search
           </Button>
         </form>
 
-        {data && !loading && (
-          <InfoCard data={data} type={watch('searchType.value')} />
+        {searchData.data && searchData.type && !loading && (
+          <InfoCard data={searchData.data} type={searchData.type} />
         )}
       </div>
     </div>
