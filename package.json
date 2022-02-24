@@ -22,7 +22,8 @@
     "react-hook-form": "^7.27.1",
     "react-hot-toast": "^2.2.0",
     "react-query": "^3.34.16",
-    "react-select": "^5.2.2"
+    "react-select": "^5.2.2",
+    "react-supabase": "^0.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
