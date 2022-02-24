@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse<SubscribeResponse>
 ) {
   const { hash } = req.query;
-  const { user } = req.body;
+  const { user, type, info } = req.body;
   if (
     !checkRequest({
       req,
@@ -30,11 +30,13 @@ export default async function handler(
     return res.status(200).json({ status: 'deleted' });
   }
 
-  const { data } = await supabase
+  const response = await supabase
     .from(SUBSCRIBED_HASHES_TABLE)
-    .upsert({ user, hash });
+    .upsert({ user, hash, type, info })
+    .single();
 
-  res
-    .status(200)
-    .json({ data: data as SubscribeResponse['data'], status: 'created' });
+  res.status(response.status).json({
+    data: response.data as SubscribeResponse['data'],
+    status: 'created',
+  });
 }
