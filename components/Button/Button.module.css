@@ -33,7 +33,7 @@
     @apply bg-transparent;
 
     &.active {
-      @apply hover:bg-gray-200;
+      @apply hover:bg-gray-200 active:bg-gray-300;
     }
 
     &.disabled {
