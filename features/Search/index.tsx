@@ -6,6 +6,8 @@ import Input from 'components/Inputs/InputField';
 import { SearchForm, SearchTypes } from './@types';
 import InfoCard from './components/InfoCard';
 import { useSearch } from './hooks/useSearch';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const searchOptions: SelectOption<SearchTypes>[] = [
   { label: 'Address', value: 'address' },
@@ -13,9 +15,20 @@ const searchOptions: SelectOption<SearchTypes>[] = [
 ];
 
 const Search = () => {
-  const { control, register, handleSubmit, watch } = useForm<SearchForm>({
-    mode: 'all',
-  });
+  const {
+    query: { query },
+    pathname,
+  } = useRouter();
+  const { control, register, setValue, handleSubmit, watch } =
+    useForm<SearchForm>({
+      mode: 'all',
+      defaultValues: {
+        query: query as string,
+        searchType: searchOptions.find((option) =>
+          pathname.startsWith(`/${option.value}`)
+        ),
+      },
+    });
   const searchType = watch('searchType');
   const { searchData, search, loading } = useSearch({
     query: watch('query'),
@@ -26,6 +39,14 @@ const Search = () => {
     search();
   };
 
+  useEffect(() => {
+    if (query) {
+      setValue('query', query as string);
+      search();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
+
   return (
     <div className="flex flex-col items-center h-screen p-10 py-20">
       <div className="w-full max-w-3xl space-y-6">
@@ -33,6 +54,7 @@ const Search = () => {
           <Controller
             control={control}
             name="searchType"
+            rules={{ required: true }}
             render={({ field: { onChange, onBlur, value } }) => {
               return (
                 <Select
@@ -45,7 +67,10 @@ const Search = () => {
               );
             }}
           />
-          <Input {...register('query')} placeholder="Enter hash" />
+          <Input
+            {...register('query', { required: 'true' })}
+            placeholder="Enter hash"
+          />
           <Button type="submit" icon={SearchIcon} loading={loading}>
             Search
           </Button>
