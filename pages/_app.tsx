@@ -1,12 +1,14 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { QueryClientProvider } from 'react-query';
+import { QueryClientProvider, QueryClient } from 'react-query';
 import { Toaster } from 'react-hot-toast';
-import { createClient } from 'utils/queryClient';
+import { Provider as SupabaseProvider } from 'react-supabase';
+import { supabase } from 'api/utils/supabase';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = createClient();
+  const queryClient = new QueryClient();
+
   return (
     <>
       <Head>
@@ -15,9 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
+      <SupabaseProvider value={supabase}>
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
+      </SupabaseProvider>
       <Toaster
         toastOptions={{
           position: 'top-right',
