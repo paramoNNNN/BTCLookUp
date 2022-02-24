@@ -1,18 +1,24 @@
+import { useRouter } from 'next/router';
 import { useFilter, useRealtime } from 'react-supabase';
 import { BellIcon } from '@heroicons/react/outline';
 import { NOTIFICATIONS_TABLE } from 'api/consts';
 import Button from 'components/Button';
-import { getUser } from 'utils';
 import Menu from 'components/Menu';
+import { getUser } from 'utils';
 
 const Notifications = (): JSX.Element => {
+  const { push } = useRouter();
   const filter = useFilter((query) => query.eq('user', getUser()), []);
-  const [{ data }] = useRealtime(NOTIFICATIONS_TABLE, {
+  const [{ data, fetching }] = useRealtime(NOTIFICATIONS_TABLE, {
     select: {
-      columns: 'id,hash (hash),user',
+      columns: 'id, hash (hash, type), user',
       filter,
     },
   });
+
+  const handleClick = ({ hash, type }: { hash: string; type: string }) => {
+    push(`/${type}/${hash}`);
+  };
 
   return (
     <div>
@@ -29,12 +35,22 @@ const Notifications = (): JSX.Element => {
           </Button>
         }
       >
-        {data?.map(({ id, hash }) => (
-          <div key={id} className="p-3 min-w-[100px]">
-            <h6 className="font-medium">Updated</h6>
-            <span className="block truncate text-sm">{hash.hash}</span>
+        {data && data.length > 0 ? (
+          data.map(({ id, hash: { hash, type } }) => (
+            <button
+              key={id}
+              className="w-full flex flex-col items-start p-3 min-w-[100px] first:rounded-t-md last:rounded-b-md hover:bg-gray-100 transition-all duration-200"
+              onClick={() => handleClick({ hash, type })}
+            >
+              <h6 className="font-medium">Updated</h6>
+              <span className="block w-full truncate text-sm">{hash}</span>
+            </button>
+          ))
+        ) : (
+          <div className="p-3 text-gray-500 text-center">
+            {fetching ? 'Loading...' : 'No notifications'}
           </div>
-        ))}
+        )}
       </Menu>
     </div>
   );
