@@ -68,11 +68,26 @@ export interface TransactionResponse extends BaseResponse {
 }
 
 export type SubscribeResponse = {
-  data?: {
-    id: number;
-    hash: string;
-    user: string;
-    created_at: string;
-  }[];
+  data?: SubscribedHashTable | null;
   status: 'created' | 'deleted';
+};
+
+export type CheckChangesResponse = {
+  status: 'done';
+};
+
+export type SubscribedHashTable = {
+  id: number;
+  user: string;
+  hash: string;
+  created_at: string;
+  info: TransactionResponse | AddressResponse;
+  type: 'address' | 'transaction';
+};
+
+export type NotificationsTable = {
+  id: number;
+  hash: number;
+  user: string;
+  created_at: string;
 };
