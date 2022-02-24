@@ -4,6 +4,7 @@ import { QueryClientProvider, QueryClient } from 'react-query';
 import { Toaster } from 'react-hot-toast';
 import { Provider as SupabaseProvider } from 'react-supabase';
 import { supabase } from 'api/utils/supabase';
+import MainLayout from 'layout/MainLayout';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -19,7 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <SupabaseProvider value={supabase}>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
         </QueryClientProvider>
       </SupabaseProvider>
       <Toaster

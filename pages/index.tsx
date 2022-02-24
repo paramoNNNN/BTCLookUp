@@ -1,13 +1,8 @@
 import type { NextPage } from 'next';
-import MainLayout from 'layout/MainLayout';
 import Search from 'features/Search';
 
-const Home: NextPage = () => {
-  return (
-    <MainLayout>
-      <Search />
-    </MainLayout>
-  );
+const HomePage: NextPage = () => {
+  return <Search />;
 };
 
-export default Home;
+export default HomePage;
