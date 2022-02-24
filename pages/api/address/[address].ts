@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { AddressResponse } from 'api/@types';
+import { AddressResponse, SubscribedHashTable } from 'api/@types';
 import { axiosInstance } from 'api/config/axios';
 import { endpoints } from 'api/config/endpoints';
 import { checkRequest } from 'api/utils';
@@ -23,7 +23,7 @@ export default async function handler(
   }
 
   const { data: subscribedHash } = await supabase
-    .from(SUBSCRIBED_HASHES_TABLE)
+    .from<SubscribedHashTable>(SUBSCRIBED_HASHES_TABLE)
     .select()
     .match({ hash: address, user })
     .single();
