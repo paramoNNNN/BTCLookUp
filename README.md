@@ -1,31 +1,163 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# File Structure
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+```
+|
+├── .github
+|   |
+│   └── workflows
+│      └── checkChanges.yml
+|   
+├── components
+│   ├── Button 
+│   ├── Header 
+│   ├── Inputs 
+│   ├── Loading 
+│   ├── Menu 
+│   ├── Notifications 
+│   └── Select 
+| 
+├── configs
+│   ├── axios.ts 
+│   └── endpoints.ts 
+| 
+├── consts
+│   └── index.ts 
+| 
+├── cypress
+│   ├── fixtures 
+│   ├── integration 
+│   ├── plugins 
+│   └── support 
+| 
+├── features
+│   └── Search 
+| 
+├── layout
+│   └── MainLayout.tsx 
+| 
+├── pages
+│   ├── address 
+│   │   └── [query].page.tsx
+|   |
+│   ├── api 
+│   │   ├── @types
+│   │   ├── config
+│   │   ├── consts
+│   │   ├── utils
+│   │   └── v1
+│   │       ├── address
+│   │       ├── subscribe
+│   │       └── transaction
+|   |
+│   ├── transaction 
+│   │   └── [query].page.tsx
+|   |
+│   ├── _app.page.tsx 
+│   └── index.page.tsx 
+| 
+| 
+├── public 
+│   ├── favicon.ico 
+│   └── vercel.svg 
+| 
+├── styles 
+│   └── global.css 
+| 
+├── utils 
+│   └── index.ts 
+| 
+├── .editorconfig 
+├── .env.example 
+├── .eslintrc.json 
+├── .gitignore 
+├── .prettierrc 
+├── commitlint.config.js 
+├── cypress.json 
+├── next-env.d.ts
+├── next.config.js
+├── package.json
+├── postcss.json
+├── README.md
+├── tailwind.config.js
+├── tsconfig.json
+└── yarn.lock
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### `yarn dev`
+
+Starts development server
+
+### `yarn build`
+
+Builds the app for production
+
+### `yarn start`
+
+Starts the app after running `yarn build`
+
+### `yarn lint`
+
+Starts next lint
+
+### `yarn cypress`
+
+Opens Cypress GUI
+
+### `yarn cypress:run`
+
+Runs Cypress tests in headless mode
+
+### `yarn prepare`
+
+Installs husky hooks
+
+### `yarn type-check`
+
+Runs tsc type checking
+
+### API
+
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api](http://localhost:3000/api). 
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To setup the project:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. Create a Supabase account [Supabase documentation](https://supabase.com/docs/guides/with-nextjs)
+
+2. Set required keys in `.env`
+
+3. Create required tables in Supabase
+
+4. You're good to go
+
+### Create required tables
+
+We need to create two tables in Supabase panel
+
+1. `subscribedHashes`:
+    - Create a table and name it `subscribedHashes` and add these columns:
+      - `id`: `int8`
+      - `user`: `text`
+      - `hash`: `text`
+      - `type`: `text`
+      - `info`: `json`
+      - `created_at`: `timestamptz` (optional)
+2. `notifications`:
+    - Create a table and name it `notifications` and add these columns:
+      - `id`: `int8`
+      - `hash`: `int8` which is a relation to `id` of `subscribedHashes` table
+      - `user`: `text`
+      - `created_at`: `timestamptz` (optional)
+
 
 ## Deploy on Vercel
 
