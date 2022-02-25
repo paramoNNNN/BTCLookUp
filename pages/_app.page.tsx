@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       </SupabaseProvider>
       <Toaster
         toastOptions={{
+          className: 'toast',
           position: 'top-right',
           duration: 5000,
         }}
