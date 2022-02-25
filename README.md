@@ -41,7 +41,7 @@ Runs tsc type checking
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 
-## Cron
+## Notifications
 
 In order to handle the notifications, Github actions come in use as Vercel serverless functions have execution timeout.
 
