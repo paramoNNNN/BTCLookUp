@@ -1,0 +1,12 @@
+name: Check changes of subscribed hashes
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check changes of subscribed hashes
+        run: |
+          curl --request POST \
+          --url 'https://btc-look-up.vercel.app/api/v1/subscribe/checkChanges'
