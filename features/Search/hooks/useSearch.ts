@@ -1,5 +1,6 @@
 import { AddressResponse, TransactionResponse } from 'pages/api/@types';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useQuery, useQueryClient } from 'react-query';
 import type { SearchTypes } from '../@types';
 import { getAddress, getTransaction } from '../api';
@@ -24,7 +25,14 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
     async () => {
       return await getAddress({ address: query });
     },
-    { enabled: false }
+    {
+      onError: (error) => {
+        toast.error((error as Error).message);
+        setData({ data: undefined, type: undefined });
+      },
+      enabled: false,
+      retry: false,
+    }
   );
   const {
     data: transactionData,
@@ -35,7 +43,14 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
     async () => {
       return await getTransaction({ hash: query });
     },
-    { enabled: false }
+    {
+      onError: (error) => {
+        toast.error((error as Error).message);
+        setData({ data: undefined, type: undefined });
+      },
+      enabled: false,
+      retry: false,
+    }
   );
 
   useEffect(() => {
