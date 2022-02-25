@@ -31,7 +31,7 @@ const Search = () => {
     });
   const searchType = watch('searchType');
   const { searchData, search, loading } = useSearch({
-    query: watch('query'),
+    query: watch('query') || (query as string),
     type: searchType?.value,
   });
 
