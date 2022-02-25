@@ -10,15 +10,16 @@ afterEach(() => {
 });
 
 describe('Transaction search', () => {
-  it('should show the given transaction info', () => {
+  it('Should show the given transaction info', () => {
     cy.fixture('hashes').then(({ transactionHash }) => {
       cy.getTransaction(transactionHash);
     });
+    cy.get('h5', { timeout: 10000 }).contains('Transaction');
   });
 });
 
 describe('Transaction subscribe', () => {
-  it('should subscribe to transaction changes', () => {
+  it('Should subscribe to transaction changes', () => {
     cy.fixture('hashes').then(({ transactionHash }) => {
       cy.getTransaction(transactionHash);
     });
@@ -30,7 +31,7 @@ describe('Transaction subscribe', () => {
     });
   });
 
-  it('should unsubscribe from transaction changes', () => {
+  it('Should unsubscribe from transaction changes', () => {
     cy.fixture('hashes').then(({ transactionHash }) => {
       cy.getTransaction(transactionHash);
     });
