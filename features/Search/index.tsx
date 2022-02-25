@@ -18,6 +18,7 @@ const Search = () => {
   const {
     push,
     query: { query },
+    asPath,
     pathname,
   } = useRouter();
   const { control, register, setValue, handleSubmit, watch } =
@@ -37,7 +38,12 @@ const Search = () => {
   });
 
   const handleSearch = ({ query, searchType }: SearchForm) => {
-    push(`/${searchType.value}/${query}`);
+    const path = `/${searchType.value}/${query}`;
+    if (path !== asPath) {
+      push(path);
+    } else {
+      search();
+    }
   };
 
   useEffect(() => {
