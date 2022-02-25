@@ -69,7 +69,7 @@ export interface TransactionResponse extends BaseResponse {
 
 export type SubscribeResponse = {
   data?: SubscribedHashTable | null;
-  status: 'created' | 'deleted';
+  status: 'created' | 'deleted' | string;
 };
 
 export type CheckChangesResponse = {
