@@ -16,6 +16,7 @@ const searchOptions: SelectOption<SearchTypes>[] = [
 
 const Search = () => {
   const {
+    push,
     query: { query },
     pathname,
   } = useRouter();
@@ -35,8 +36,8 @@ const Search = () => {
     type: searchType?.value,
   });
 
-  const handleSearch = () => {
-    search();
+  const handleSearch = ({ query, searchType }: SearchForm) => {
+    push(`/${searchType.value}/${query}`);
   };
 
   useEffect(() => {
