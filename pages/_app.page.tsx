@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { QueryClientProvider, QueryClient } from 'react-query';
@@ -8,7 +9,7 @@ import MainLayout from 'layout/MainLayout';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
     <>
