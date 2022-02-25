@@ -6,7 +6,7 @@
   }
 
   &.regular {
-    @apply px-4 py-2 rounded-lg text-sm;
+    @apply px-4 py-2.5 rounded-lg text-sm;
   }
 
   &.small {
