@@ -55,9 +55,12 @@ const Search = () => {
   }, [query]);
 
   return (
-    <div className="flex flex-col items-center h-screen p-10 py-20">
+    <div className="flex flex-col items-center h-screen p-6 sm:p-10 md:py-20">
       <div className="w-full max-w-3xl space-y-6">
-        <form className="flex space-x-4" onSubmit={handleSubmit(handleSearch)}>
+        <form
+          className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4"
+          onSubmit={handleSubmit(handleSearch)}
+        >
           <Controller
             control={control}
             name="searchType"
