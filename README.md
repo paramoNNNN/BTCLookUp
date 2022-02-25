@@ -41,6 +41,13 @@ Runs tsc type checking
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 
+## Cron
+
+In order to handle the notifications, Github actions come in use as Vercel serverless functions have execution timeout.
+
+You can check the code [here](.github/workflows/checkChanges.yml) and the actions [here](https://github.com/paramoNNNN/BTCLookUp/actions).
+
+
 ## Setup
 
 To setup the project:
