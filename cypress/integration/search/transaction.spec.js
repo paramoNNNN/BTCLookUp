@@ -26,9 +26,9 @@ describe('Transaction subscribe', () => {
     cy.get("button[title='Subscribe to changes']", { timeout: 10000 }).click({
       timeout: 10000,
     });
-    cy.get('.toast').contains('Successfully subscribed to changes', {
+    cy.get('.toast', {
       timeout: 10000,
-    });
+    }).contains('Successfully subscribed to changes');
   });
 
   it('Should unsubscribe from transaction changes', () => {
@@ -36,6 +36,6 @@ describe('Transaction subscribe', () => {
       cy.getTransaction(transactionHash);
     });
     cy.get("button[title='Unsubscribe']", { timeout: 10000 }).click();
-    cy.get('.toast').contains('Removed from subscriptions', { timeout: 10000 });
+    cy.get('.toast', { timeout: 10000 }).contains('Removed from subscriptions');
   });
 });
