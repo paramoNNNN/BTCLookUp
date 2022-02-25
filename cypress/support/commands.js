@@ -49,3 +49,16 @@ Cypress.Commands.add('getTransaction', (transactionHash) => {
 
   cy.get("button[type='submit']").click();
 });
+
+Cypress.Commands.add('getAddress', (addressHash) => {
+  cy.visit('http://localhost:3000');
+
+  cy.get('.select__control').click();
+  cy.get('#react-select-select-option-0').click();
+
+  cy.get("[name='query']").as('searchInput');
+  cy.get('@searchInput').focus();
+  cy.get('@searchInput').type(addressHash);
+
+  cy.get("button[type='submit']").click();
+});
