@@ -8,5 +8,5 @@ jobs:
     steps:
       - name: Check changes of subscribed hashes
         run: |
-          curl --request POST \
+          curl --request GET \
           --url 'https://btc-look-up.vercel.app/api/v1/subscribe/checkChanges'
