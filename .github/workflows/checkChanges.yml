@@ -1,7 +1,7 @@
 name: Check changes of subscribed hashes
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/7 * * * *'
 jobs:
   cron:
     runs-on: ubuntu-latest
