@@ -45,7 +45,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 To setup the project:
 
-1. Create a Supabase account [Supabase documentation](https://supabase.com/docs/guides/with-nextjs)
+1. Create a Supabase account ([Supabase documentation](https://supabase.com/docs/guides/with-nextjs))
 
 2. Set required keys in `.env`
 
@@ -55,7 +55,7 @@ To setup the project:
 
 ### Create required tables
 
-We need to create two tables in Supabase panel
+You need to create two tables in Supabase panel
 
 1. `subscribedHashes`:
     - Create a table and name it `subscribedHashes` and add these columns:
@@ -73,14 +73,18 @@ We need to create two tables in Supabase panel
       - `created_at`: `timestamptz` (optional)
 
 
-# File Structure
+## File Structure
 
 ```
 |
 ├── .github
-|   |
 │   └── workflows
 │      └── checkChanges.yml
+├── .husky
+│   ├── .gitignore
+│   ├── commit-msg
+│   ├── pre-commit
+│   └── pre-push
 |   
 ├── components
 │   ├── Button 
@@ -142,19 +146,33 @@ We need to create two tables in Supabase panel
 │   └── index.ts 
 | 
 ├── .editorconfig 
+| 
 ├── .env.example 
+| 
 ├── .eslintrc.json 
+| 
 ├── .gitignore 
+| 
 ├── .prettierrc 
+| 
 ├── commitlint.config.js 
+| 
 ├── cypress.json 
+| 
 ├── next-env.d.ts
+| 
 ├── next.config.js
+| 
 ├── package.json
+| 
 ├── postcss.json
+| 
 ├── README.md
+| 
 ├── tailwind.config.js
+| 
 ├── tsconfig.json
+| 
 └── yarn.lock
 ```
 
