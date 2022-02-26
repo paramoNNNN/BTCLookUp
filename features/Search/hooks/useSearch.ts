@@ -19,6 +19,7 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
   const {
     data: addressData,
     refetch: addressRefetch,
+    isFetching: addressFetching,
     isLoading: addressLoading,
   } = useQuery(
     'address',
@@ -37,6 +38,7 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
   const {
     data: transactionData,
     refetch: transactionRefetch,
+    isFetching: transactionFetching,
     isLoading: transactionLoading,
   } = useQuery<TransactionResponse>(
     'transaction',
@@ -70,7 +72,11 @@ export const useSearch = ({ query, type }: UseSearchParams) => {
 
   return {
     searchData: data,
-    loading: addressLoading || transactionLoading,
+    loading:
+      addressLoading ||
+      addressFetching ||
+      transactionLoading ||
+      transactionFetching,
     search,
   };
 };
