@@ -11,7 +11,7 @@ type Props = {
 
 const Menu = ({ className, menuClassName, button, children }: Props) => {
   return (
-    <div className={classNames('relative w-full', className)}>
+    <div className={classNames('relative w-full z-10', className)}>
       <HeadlessMenu as="div" className="relative w-full inline-block text-left">
         <HeadlessMenu.Button>{button}</HeadlessMenu.Button>
         <Transition
