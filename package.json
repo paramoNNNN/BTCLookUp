@@ -19,6 +19,7 @@
     "axios": "^0.26.0",
     "bitcoin-address-validation": "^2.2.1",
     "classnames": "^2.3.1",
+    "decimal.js-light": "^2.5.1",
     "deep-equal": "^2.0.5",
     "nanoid": "^3.3.1",
     "next": "12.1.0",
