@@ -1,14 +1,14 @@
-import { validate as validateBTCAddress } from 'bitcoin-address-validation';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { SearchIcon } from '@heroicons/react/solid';
 import Button from 'components/Button';
-import Select, { SelectOption } from 'components/Select';
 import Input from 'components/Inputs/InputField';
+import Select, { SelectOption } from 'components/Select';
 import { SearchForm, SearchTypes } from './@types';
 import InfoCard from './components/InfoCard';
 import { useSearch } from './hooks/useSearch';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { validateQuery } from './utils';
 
 const searchOptions: SelectOption<SearchTypes>[] = [
   { label: 'Address', value: 'address' },
@@ -40,19 +40,11 @@ const Search = () => {
     },
   });
   const searchType = watch('searchType');
+  const searchQuery = watch('query');
   const { searchData, search, loading } = useSearch({
     query: watch('query') || (query as string),
     type: searchType?.value,
   });
-
-  const validateQuery = (query: string) => {
-    const valid =
-      searchType.value === 'address'
-        ? validateBTCAddress(query)
-        : !!query.match(/^[a-fA-F0-9]{64}$/);
-
-    return { valid, type: searchType.value };
-  };
 
   const handleSearch = ({ query, searchType }: SearchForm) => {
     const path = `/${searchType.value}/${query}`;
@@ -76,6 +68,19 @@ const Search = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
+
+  // Change search type based on entered query
+  useEffect(() => {
+    const result = validateQuery(searchQuery);
+    if (result.valid) {
+      setValue(
+        'searchType',
+        searchOptions.find(
+          (option) => option.value === result.type
+        ) as SelectOption<SearchTypes>
+      );
+    }
+  }, [searchQuery, setValue]);
 
   return (
     <div className="flex flex-col items-center h-screen p-6 sm:p-10 md:py-20">
