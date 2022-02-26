@@ -1,3 +1,4 @@
+import { validate as validateBTCAddress } from 'bitcoin-address-validation';
 import { Controller, useForm } from 'react-hook-form';
 import { SearchIcon } from '@heroicons/react/solid';
 import Button from 'components/Button';
@@ -21,35 +22,57 @@ const Search = () => {
     asPath,
     pathname,
   } = useRouter();
-  const { control, register, setValue, handleSubmit, watch } =
-    useForm<SearchForm>({
-      mode: 'all',
-      defaultValues: {
-        query: query as string,
-        searchType: searchOptions.find((option) =>
-          pathname.startsWith(`/${option.value}`)
-        ),
-      },
-    });
+  const {
+    control,
+    register,
+    setValue,
+    getValues,
+    handleSubmit,
+    watch,
+    formState: { isValid },
+  } = useForm<SearchForm>({
+    mode: 'all',
+    defaultValues: {
+      query: query as string,
+      searchType: searchOptions.find((option) =>
+        pathname.startsWith(`/${option.value}`)
+      ),
+    },
+  });
   const searchType = watch('searchType');
   const { searchData, search, loading } = useSearch({
     query: watch('query') || (query as string),
     type: searchType?.value,
   });
 
+  const validateQuery = (query: string) => {
+    const valid =
+      searchType.value === 'address'
+        ? validateBTCAddress(query)
+        : !!query.match(/^[a-fA-F0-9]{64}$/);
+
+    return { valid, type: searchType.value };
+  };
+
   const handleSearch = ({ query, searchType }: SearchForm) => {
     const path = `/${searchType.value}/${query}`;
     if (path !== asPath) {
       push(path);
     } else {
-      search();
+      if (validateQuery(query).valid) {
+        search();
+      }
     }
   };
 
+  // Perform search on route query change
   useEffect(() => {
     if (query) {
-      setValue('query', query as string);
-      search();
+      setValue('query', query as string, { shouldValidate: true });
+      handleSearch({
+        query: query as string,
+        searchType: getValues('searchType'),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
@@ -78,10 +101,18 @@ const Search = () => {
             }}
           />
           <Input
-            {...register('query', { required: 'true' })}
+            {...register('query', {
+              required: true,
+              validate: (query) => validateQuery(query).valid,
+            })}
             placeholder="Enter hash"
           />
-          <Button type="submit" icon={SearchIcon} loading={loading}>
+          <Button
+            type="submit"
+            icon={SearchIcon}
+            disabled={!isValid}
+            loading={loading}
+          >
             Search
           </Button>
         </form>
