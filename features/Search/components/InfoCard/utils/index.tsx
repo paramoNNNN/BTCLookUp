@@ -1,3 +1,4 @@
+import { Decimal } from 'decimal.js-light';
 import {
   BadgeCheckIcon,
   CashIcon,
@@ -68,7 +69,9 @@ export const transformData = ({ data, type }: TransformDataParams) => {
       {
         icon: <CurrencyDollarIcon className="w-6 h-6 text-yellow-500" />,
         title: 'Total fees',
-        value: transaction.fees,
+        value: `${new Decimal(transaction.fees || 0)
+          .div(100_000_000)
+          .toNumber()} BTC`,
       },
     ];
   }
