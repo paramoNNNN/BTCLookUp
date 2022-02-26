@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
-    "cypress:run": "start-server-and-test dev http://localhost:3000 'cypress run'",
+    "cypress:run": "concurrently --handle-input --kill-others-on-fail 'yarn start' 'cypress run'",
     "prepare": "husky install",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit"
   },
