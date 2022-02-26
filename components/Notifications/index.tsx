@@ -27,8 +27,10 @@ const Notifications = (): JSX.Element => {
         button={
           <Button className="relative" layout="transparent">
             {data && data.length > 0 && (
-              <div className="absolute -top-2 -right-2 bg-blue-500 w-6 h-6 text-sm text-white rounded-full">
-                {data?.length}
+              <div className="absolute -top-2 -right-2 grid place-content-center bg-blue-500 w-6 h-6 text-sm text-white rounded-full">
+                <span className="block transform translate-y-[-0.5px]">
+                  {data?.length}
+                </span>
               </div>
             )}
             <BellIcon className="w-5 h-5 text-slate-900" />
