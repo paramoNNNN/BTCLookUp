@@ -87,10 +87,7 @@ export const transformData = ({ data, type }: TransformDataParams) => {
     {
       icon: <CheckCircleIcon className="w-6 h-6 text-green-500" />,
       title: 'Confirmed transactions',
-      value: address.txrefs.reduce(
-        (value, tx) => (tx.confirmed ? value + 1 : 0),
-        0
-      ),
+      value: address.final_n_tx,
     },
     {
       icon: <DocumentDownloadIcon className="w-6 h-6 text-slate-500" />,
@@ -120,7 +117,7 @@ export const transformData = ({ data, type }: TransformDataParams) => {
     {
       icon: <CashIcon className="w-6 h-6 text-green-700" />,
       title: 'Current address balance',
-      value: satoshiToBTC(address.balance),
+      value: satoshiToBTC(address.final_balance),
     },
   ];
 };
