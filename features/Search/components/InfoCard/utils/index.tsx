@@ -22,6 +22,9 @@ type TransformDataParams = {
   type: SearchTypes;
 };
 
+const satoshiToBTC = (satoshi: number) =>
+  `${new Decimal(satoshi || 0).div(100_000_000).toNumber()} BTC`;
+
 export const transformData = ({ data, type }: TransformDataParams) => {
   if (type === 'transaction') {
     const transaction = data as TransactionResponse;
@@ -69,15 +72,18 @@ export const transformData = ({ data, type }: TransformDataParams) => {
       {
         icon: <CurrencyDollarIcon className="w-6 h-6 text-yellow-500" />,
         title: 'Total fees',
-        value: `${new Decimal(transaction.fees || 0)
-          .div(100_000_000)
-          .toNumber()} BTC`,
+        value: satoshiToBTC(transaction.fees),
       },
     ];
   }
 
   const address = data as AddressResponse;
   return [
+    {
+      icon: <DocumentIcon className="w-6 h-6 text-gray-500" />,
+      title: 'Address',
+      value: address.address,
+    },
     {
       icon: <CheckCircleIcon className="w-6 h-6 text-green-500" />,
       title: 'Confirmed transactions',
@@ -89,28 +95,32 @@ export const transformData = ({ data, type }: TransformDataParams) => {
     {
       icon: <DocumentDownloadIcon className="w-6 h-6 text-slate-500" />,
       title: 'Total BTC received',
-      value: address.total_received,
+      value: satoshiToBTC(address.total_received),
     },
     {
       icon: <PlusCircleIcon className="w-6 h-6 text-blue-500" />,
       title: 'Total BTC spent',
-      value: address.txrefs.reduce(
-        (value, tx) => (tx.spent ? value + tx.value : 0),
-        0
+      value: satoshiToBTC(
+        address.txrefs.reduce(
+          (value, tx) => (tx.spent ? value + tx.value : 0),
+          0
+        )
       ),
     },
     {
       icon: <MinusCircleIcon className="w-6 h-6 text-rose-500" />,
       title: 'Total BTC unspent',
-      value: address.txrefs.reduce(
-        (value, tx) => (!tx.spent ? value + tx.value : 0),
-        0
+      value: satoshiToBTC(
+        address.txrefs.reduce(
+          (value, tx) => (!tx.spent ? value + tx.value : 0),
+          0
+        )
       ),
     },
     {
       icon: <CashIcon className="w-6 h-6 text-green-700" />,
       title: 'Current address balance',
-      value: address.balance,
+      value: satoshiToBTC(address.balance),
     },
   ];
 };
